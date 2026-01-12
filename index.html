@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jurnal Emosi & Mood Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ Jurnal Emosi Saya</h1>
+            <p class="tagline">Catat perasaanmu, lacak moodmu, temukan motivasi</p>
+        </header>
+
+        <div class="quote-container">
+            <div class="quote-text" id="quoteText">"Setiap hari adalah kesempatan baru untuk menjadi versi terbaik dari dirimu."</div>
+            <div class="quote-author" id="quoteAuthor">- Anonim</div>
+            <button class="quote-btn" onclick="changeQuote()">Kutipan Motivasi</button>
+        </div>
+
+        <div class="main-grid">
+            <div class="card">
+                <h2>📊 Mood Hari Ini</h2>
+                <div class="mood-selector">
+                    <button class="mood-btn" onclick="selectMood('😊', 'Senang')">
+                        😊
+                        <span class="mood-label">Senang</span>
+                    </button>
+                    <button class="mood-btn" onclick="selectMood('😌', 'Tenang')">
+                        😌
+                        <span class="mood-label">Tenang</span>
+                    </button>
+                    <button class="mood-btn" onclick="selectMood('😐', 'Biasa')">
+                        😐
+                        <span class="mood-label">Biasa</span>
+                    </button>
+                    <button class="mood-btn" onclick="selectMood('😔', 'Sedih')">
+                        😔
+                        <span class="mood-label">Sedih</span>
+                    </button>
+                    <button class="mood-btn" onclick="selectMood('😰', 'Cemas')">
+                        😰
+                        <span class="mood-label">Cemas</span>
+                    </button>
+                    <button class="mood-btn" onclick="selectMood('😤', 'Kesal')">
+                        😤
+                        <span class="mood-label">Kesal</span>
+                    </button>
+                </div>
+                
+                <div id="solutionBox" style="display: none; margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; border-left: 4px solid #4caf50;">
+                    <h3 style="color: #2e7d32; margin-bottom: 10px;">💡 Saran untuk Kamu</h3>
+                    <p id="solutionText" style="color: #1b5e20; line-height: 1.6;"></p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📝 Tulis Jurnal</h2>
+                <textarea id="journalText" placeholder="Apa yang kamu rasakan hari ini? Ceritakan disini..."></textarea>
+                <button class="btn" onclick="saveEntry()">Simpan Jurnal</button>
+                
+                <div id="aiSolutionBox" style="display: none; margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 10px; border-left: 4px solid #2196f3;">
+                    <h3 style="color: #1565c0; margin-bottom: 10px;">🤖 Solusi Berdasarkan Ceritamu</h3>
+                    <p id="aiSolutionText" style="color: #0d47a1; line-height: 1.6;"></p>
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <h2>✍️Input Motivasi Pribadi</h2>
+                <textarea id="motivationInput" placeholder="Tulis motivasi atau afirmasi positif untuk dirimu sendiri..." style="min-height: 100px;"></textarea>
+                <button class="btn" onclick="saveMotivation()">Simpan Motivasi</button>
+                
+                <div id="motivationList" style="margin-top: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px; font-size: 1.1em;">Motivasi Saya:</h3>
+                    <div id="myMotivations" class="no-entries">Belum ada motivasi pribadi. Mulai tambahkan sekarang!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📈 Statistik Mood</h2>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalEntries">0</div>
+                    <div class="stat-label">Total Entri</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="happyCount">0</div>
+                    <div class="stat-label">Hari Senang</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="calmCount">0</div>
+                    <div class="stat-label">Hari Tenang</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="sadCount">0</div>
+                    <div class="stat-label">Hari Sedih</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📖 Jurnal Terakhir</h2>
+            <div id="entriesList">
+                <div class="no-entries">Belum ada jurnal. Mulai menulis hari ini!</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📋 Kesimpulan & Analisis</h2>
+            <div id="summaryContent">
+                <div class="summary-section">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Mood Dominan</h3>
+                    <p id="dominantMood" style="font-size: 1.2em; color: #333;">-</p>
+                </div>
+                <div class="summary-section">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Pola Emosi</h3>
+                    <p id="emotionPattern" style="color: #666; line-height: 1.6;">Belum cukup data untuk analisis. Mulai catat moodmu minimal 3 hari untuk melihat pola emosi.</p>
+                </div>
+                <div class="summary-section">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Rekomendasi</h3>
+                    <p id="recommendation" style="color: #666; line-height: 1.6;">Terus catat perasaanmu setiap hari untuk memahami dirimu lebih baik.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="mood.js"></script>
+
+</body>
+</html>
